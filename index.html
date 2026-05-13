@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XTAL JURIS CORE - Painel de Operações Jurídicas</title>
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --bg: #0a0b10;
+            --card: #161b22;
+            --text: #e6edf3;
+            --accent: #238636;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        h1 { color: var(--primary); margin: 0; font-size: 2.5em; letter-spacing: 2px; }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .card h2 { color: var(--primary); margin-top: 0; }
+        textarea {
+            width: 100%;
+            height: 100px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background: var(--primary);
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { opacity: 0.8; }
+        .output {
+            grid-column: span 2;
+            background: #0d1117;
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 200px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .badge {
+            background: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>XTAL JURIS CORE</h1>
+        <p>Banca de Advocacia Digital de Alta Performance - V6.2</p>
+    </header>
+
+    <div class="container">
+        <!-- Célula Ambiental -->
+        <div class="card">
+            <span class="badge">ONLINE</span>
+            <h2>Célula Ambiental</h2>
+            <p>Geotecnia, CETESB e Controle Ambiental.</p>
+            <textarea id="input-ambiental" placeholder="Descreva a demanda ou cole o laudo técnico..."></textarea>
+            <button onclick="processar('ambiental')">PROCESSAR DEFESA AMBIENTAL</button>
+        </div>
+
+        <!-- Célula Trabalhista -->
+        <div class="card">
+            <span class="badge">ONLINE</span>
+            <h2>Célula Trabalhista/SST</h2>
+            <p>NRs, NHOs e Direito Previdenciário.</p>
+            <textarea id="input-trabalhista" placeholder="Descreva o caso ou dados de exposição (Ruído, Calor)..."></textarea>
+            <button onclick="processar('trabalhista')">PROCESSAR DEFESA TRABALHISTA</button>
+        </div>
+
+        <div class="output" id="output-box">
+            > SISTEMA PRONTO. AGUARDANDO COMANDO...
+        </div>
+    </div>
+
+    <script>
+        async function processar(tipo) {
+            const output = document.getElementById('output-box');
+            const demanda = document.getElementById(`input-${tipo}`).value;
+            
+            output.innerHTML = `[!] Acionando Agentes da Célula ${tipo.toUpperCase()}...\n[!] Perito consultando base de dados técnico-científicos...\n[!] Advogado fundamentando estratégia jurídica...\n\n`;
+            
+            try {
+                const response = await fetch('/processar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tipo, demanda })
+                });
+                const data = await response.json();
+                output.innerHTML = data.resultado;
+            } catch (error) {
+                output.innerHTML = "[ERRO] Não foi possível conectar ao motor XTAL. Certifique-se que o servidor Python está rodando.";
+            }
+        }
+    </script>
+</body>
+</html>

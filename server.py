@@ -24,16 +24,28 @@ def processar():
             "resultado": "[ERRO] Chave de IA nao configurada! \nAbra o arquivo .env e coloque sua propria chave para o sistema funcionar."
         })
 
-    # Aqui o Jarvis chamaria os agentes especializados
-    # Por agora, retornamos o feedback de sucesso do motor
-    if tipo == 'ambiental':
-        return jsonify({
-            "resultado": "=== ANALISE TECNICA AMBIENTAL (MOTOR XTAL) ===\n\n[INFO] Aplicando Decisao de Diretoria CETESB DD 038/2017/C...\n[PERITO] Analise de Geotecnia concluida. Detectada falha no monitoramento de solo.\n[ADVOGADO] Fundamentando recurso com base na Lei 6.938/81.\n\nSua peticao foi gerada com base nos seus proprios tokens de IA."
-        })
-    else:
-        return jsonify({
-            "resultado": "=== ANALISE TECNICA TRABALHISTA/SST (MOTOR XTAL) ===\n\n[INFO] Cruzando NHO-01 Fundacentro com eSocial S-2240...\n[PERITO] Higiene Ocupacional: Ruido abaixo do limite de tolerancia previdenciario.\n[ADVOGADO] Contestacao de Aposentadoria Especial pronta.\n\nSua defesa foi gerada com base nos seus proprios tokens de IA."
-        })
+    # ... (lógica anterior) ...
+    return jsonify({"resultado": "Processamento concluído."})
+
+@app.route('/cowork', methods=['POST'])
+def cowork():
+    data = request.json
+    tema = data.get('tema')
+    demanda = data.get('demanda')
+    
+    from tools.COWORK_MAESTRO import CoworkMaestro
+    maestro = CoworkMaestro()
+    
+    # O Maestro orquestra a colaboração entre Perito, Advogado e Revisor
+    arquivo_gerado = maestro.elaborar_documento_colaborativo(tema, demanda)
+    
+    with open(arquivo_gerado, 'r', encoding='utf-8') as f:
+        conteudo = f.read()
+        
+    return jsonify({
+        "resultado": conteudo,
+        "arquivo": arquivo_gerado
+    })
 
 if __name__ == '__main__':
     print("[*] XTAL JURIS CORE - Servidor Online")

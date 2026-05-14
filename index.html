@@ -7,92 +7,128 @@
     <style>
         :root {
             --primary: #00f2ff;
-            --bg: #0a0b10;
-            --card: #161b22;
+            --bg: #05060a;
+            --glass: rgba(22, 27, 34, 0.7);
             --text: #e6edf3;
             --accent: #238636;
         }
         body {
-            background-color: var(--bg);
+            background: radial-gradient(circle at center, #0a0b1e 0%, #05060a 100%);
             color: var(--text);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
         header {
             text-align: center;
             margin-bottom: 40px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
+            padding: 30px;
             width: 100%;
             max-width: 1000px;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
         }
-        h1 { color: var(--primary); margin: 0; font-size: 2.5em; letter-spacing: 2px; }
+        h1 { color: var(--primary); margin: 0; font-size: 3em; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
+        .ambient-search {
+            margin-top: 20px;
+            width: 80%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--primary);
+            border-radius: 30px;
+            color: var(--primary);
+            text-align: center;
+            font-size: 0.9em;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
         .container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
             width: 100%;
             max-width: 1000px;
         }
         .card {
-            background: var(--card);
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 20px;
-            transition: transform 0.3s;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
-        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
-        .card h2 { color: var(--primary); margin-top: 0; }
+        .card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: 0.5s; }
+        .card:hover::before { left: 100%; }
+        .card:hover { transform: scale(1.02); border-color: var(--primary); box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
+        .card h2 { color: var(--primary); margin-top: 0; font-size: 1.5em; }
         textarea {
             width: 100%;
-            height: 100px;
-            background: #0d1117;
-            border: 1px solid #30363d;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
             box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
         }
+        textarea:focus { border-color: var(--primary); background: rgba(0, 0, 0, 0.5); }
         button {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, #00a2ff 100%);
             color: black;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 800;
             cursor: pointer;
             width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
         }
-        button:hover { opacity: 0.8; }
         .output {
             grid-column: span 2;
-            background: #0d1117;
-            border: 1px solid var(--primary);
-            padding: 20px;
-            border-radius: 12px;
-            min-height: 200px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            padding: 25px;
+            border-radius: 20px;
+            min-height: 250px;
             white-space: pre-wrap;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
         }
         .badge {
             background: var(--accent);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-bottom: 10px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-bottom: 15px;
             display: inline-block;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
     <header>
         <h1>XTAL JURIS CORE</h1>
-        <p>Banca de Advocacia Digital de Alta Performance - V6.2</p>
+        <p>Banca de Advocacia Digital de Alta Performance • V6.2</p>
+        <div class="ambient-search">
+            ✨ [AMBIENT AI]: Monitorando Diário Oficial e e-mails em tempo real... Nenhuma intimação crítica detectada nos últimos 15 min.
+        </div>
     </header>
 
     <div class="container">

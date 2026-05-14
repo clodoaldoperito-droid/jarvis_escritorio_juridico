@@ -1,8 +1,17 @@
 # COWORK_MAESTRO.py - Orquestrador de Colaboração Multi-Agente XTAL
 import json
 import os
+import sys
 import time
-from HIVE_CORE.ROTEADOR_IA import ask_ai
+
+# Garante que o HIVE_CORE seja encontrado
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+try:
+    from HIVE_CORE.ROTEADOR_IA import ask_ai
+except ImportError:
+    # Fallback para ambiente de teste
+    def ask_ai(prompt, context): return f"[SIMULAÇÃO] Resposta para: {prompt[:50]}..."
 
 class CoworkMaestro:
     def __init__(self):

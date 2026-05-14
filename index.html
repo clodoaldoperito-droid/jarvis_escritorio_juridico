@@ -151,13 +151,20 @@
         </div>
 
         <!-- CoWork Maestro (NOVO) -->
-        <div class="card" style="grid-column: span 2; border-style: double; border-width: 3px;">
+        <div class="card" style="grid-column: span 1; border-style: double; border-width: 3px;">
             <span class="badge" style="background: #ff00ff;">MODO COWORK ATIVADO</span>
-            <h2>CoWork Maestro: Elaboração de Documentos</h2>
-            <p>Ação conjunta: Perito + Advogado + Revisor Forense.</p>
-            <input type="text" id="tema-cowork" placeholder="Título do Documento (ex: Recurso de Multa Ambiental)" style="width:100%; background:rgba(0,0,0,0.5); border:1px solid var(--primary); color:white; padding:10px; border-radius:8px; margin-bottom:10px;">
-            <textarea id="input-cowork" placeholder="Descreva a demanda complexa aqui... Os agentes irão colaborar para criar a peça imbatível."></textarea>
-            <button onclick="iniciarCowork()" style="background: linear-gradient(135deg, #ff00ff 0%, #00f2ff 100%);">INICIAR ELABORAÇÃO COLABORATIVA</button>
+            <h2>CoWork Maestro</h2>
+            <p>Ação conjunta: Perito + Advogado + Revisor.</p>
+            <button onclick="iniciarCowork()">INICIAR ELABORAÇÃO</button>
+        </div>
+
+        <!-- Célula Vigilância Sanitária (NOVO) -->
+        <div class="card">
+            <span class="badge" style="background: #00ff00;">NEW</span>
+            <h2>Vigilância Sanitária (VISA)</h2>
+            <p>LTA, HSA, MBP e POPs (ANVISA/CVS).</p>
+            <textarea id="input-sanitaria" placeholder="Descreva a demanda sanitária ou fluxo de processo..."></textarea>
+            <button onclick="processar('sanitaria')" style="background: #00ff00; color: black;">PROCESSAR CONSULTORIA VISA</button>
         </div>
 
         <div class="output" id="output-box">

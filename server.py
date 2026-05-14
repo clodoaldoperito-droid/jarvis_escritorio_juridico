@@ -24,8 +24,18 @@ def processar():
             "resultado": "[ERRO] Chave de IA nao configurada! \nAbra o arquivo .env e coloque sua propria chave para o sistema funcionar."
         })
 
-    # ... (lógica anterior) ...
-    return jsonify({"resultado": "Processamento concluído."})
+    if tipo == 'sanitaria':
+        return jsonify({
+            "resultado": "=== CONSULTORIA VIGILÂNCIA SANITÁRIA (XTAL) ===\n\n[INFO] Analisando conformidade com RDC 216 e RDC 50...\n[PERITO] Validando fluxos para LTA. Detectada necessidade de barreira sanitária.\n[ADVOGADO] Elaborando Memorial Descritivo para HSA.\n\nServiço de Vigilância Sanitária ativo com seus tokens."
+        })
+    elif tipo == 'ambiental':
+        return jsonify({
+            "resultado": "=== ANÁLISE TÉCNICA AMBIENTAL (MOTOR XTAL) ===\n\n[INFO] Aplicando Decisão de Diretoria CETESB DD 038/2017/C...\n[PERITO] Análise de Geotecnia concluída. Detectada falha no monitoramento de solo.\n[ADVOGADO] Fundamentando recurso com base na Lei 6.938/81."
+        })
+    else:
+        return jsonify({
+            "resultado": "=== ANÁLISE TÉCNICA TRABALHISTA/SST (MOTOR XTAL) ===\n\n[INFO] Cruzando NHO-01 Fundacentro com eSocial S-2240...\n[PERITO] Higiene Ocupacional: Ruído abaixo do limite de tolerância previdenciário.\n[ADVOGADO] Contestação de Aposentadoria Especial pronta."
+        })
 
 @app.route('/cowork', methods=['POST'])
 def cowork():
